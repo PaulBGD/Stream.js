@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stream</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css" rel="stylesheet" integrity="sha256-4nVETqQoIoCwuephcXpJ501G8B5sgBHb1ZsKU/D476I= sha512-cfSmkkLRDAcUNaJxRRWopCyEGX43UkWCAOl2wErYMBGOQVWwOsZ7IFuXScF9H/6nMGbmsgV4m5/xYfesyvHTxw==" crossorigin="anonymous">
+    <style>
+        h2 {
+            margin: 30px 0 10px;
+        }
+
+        p {
+            color: #444;
+        }
+
+        @media (min-width: 975px) {
+            .padding-top {
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+
+            #navbar-side {
+                position: fixed;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 padding-top">
+            <h1 id="home" class="page-header">Stream.js
+                <small>500 byte library for Streams in JavaScript</small>
+            </h1>
+
+            <div id="download">
+                <h2>Download</h2>
+
+                <a href="src/stream.js" class="btn btn-primary btn-lg">Development Version</a>
+                <a href="src/stream.min.js" class="btn btn-primary btn-lg">Production Version</a>
+            </div>
+
+            <div id="about">
+                <h2>About</h2>
+
+                <p>Stream.js is a library which adds Streams for Arrays. These Streams work in all browsers, even as far back as IE7. They're incredibly fast, and can support a multitude of functions.</p>
+                <p>Along with this compatibility, it also supports the new ES6 arrow syntax. Prototypes can be passed to it as well.</p>
+            </div>
+
+            <div id="examples">
+                <h2>Examples</h2>
+
+                <p>Streaming an unordered array of numbers into an array of just the even numbers, as strings with a decimal point:</p>
+                <pre><code>new Stream ([5, 2, 3, 0])
+    .sort(function (o1, o2) { return o1 - o2 })
+    .filter(function (o) { return o % 2 })
+    .map(function (o) { return o + '.0' })
+    .toArray();
+// => ['0.0', '2.0']</code></pre>
+
+                <p>Sorting an unordered array of strings into an array of them sorted alphabetically and lowercase</p>
+                <pre><code>new Stream(['Zebra', 'HoRse', 'Mammoth'])
+    .map(String.prototype.toLowerCase)
+    .sort(function(o1, o2) { return o1.charCodeAt(0) - o2.charCodeAt(0) })
+    .toArray();
+    </code></pre>
+            </div>
+
+            <div id="functions">
+                <h2>Functions</h2>
+
+                <h3><code>new Stream(array) => Stream</code></h3>
+
+                <p>Returns a new Stream object with the elements of the array</p>
+
+                <h3><code>Stream.prototype.toArray() => Array</code></h3>
+
+                <p>Converts the current Stream to an array. This does not modify the original array.</p>
+
+                <h3><code>Stream.prototype.forEach(function (element:Object) => void) => void</code></h3>
+
+                <p>Iterates through all of the elements.</p>
+
+                <h3><code>Stream.prototype.sum() => Number</code></h3>
+
+                <p>If all the objects in the Stream are numbers, then it will calculate the total sum.</p>
+
+                <h3><code>Stream.prototype.count() => Number</code></h3>
+
+                <p>Returns the amount of objects currently in the stream.</p>
+
+                <h3><code>Stream.prototype.findFirst() => Object</code></h3>
+
+                <p>Returns the first object it finds. It will return null if there are no objects in the stream.</p>
+
+                <h3><code>Stream.prototype.map(function (element:Object) => Object) => void</code></h3>
+
+                <p>Accepts a Function which takes all of the elements, then returns new values for them.</p>
+
+                <h3><code>Stream.prototype.filter(function (element:Object) => boolean) => void</code></h3>
+
+                <p>Accepts a Function which accepts all of the elements, then returns true if the element should stay.</p>
+
+                <h3><code>Stream.prototype.sort(function (elementOne:Object, elementTwo:Object) => number) => void</code></h3>
+
+                <p>Accepts a function that sorts the stream. See Array.prototype.sort on what the array should be returning.</p>
+
+                <h3><code>Stream.prototype.distinct() => void</code></h3>
+
+                <p>Uses == to check all of the elements and make sure they're distinct.</p>
+
+                <h3><code>Stream.prototype.clone() => Stream</code></h3>
+
+                <p>Creates a new copy of the stream, with all transformers. This does not deepcopy the original array elements.</p>
+            </div>
+        </div>
+        <div class="col-md-2 padding-top hidden-xs hidden-sm">
+            <ul id="navbar-side" class="nav nav-pills nav-stacked padding-top">
+                <li><a href="#home" class="spy">Home</a></li>
+                <li><a href="#download" class="spy">Download</a></li>
+                <li><a href="#about" class="spy">About</a></li>
+                <li><a href="#examples" class="spy">Examples</a></li>
+                <li><a href="#functions" class="spy">Functions</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="//cdn.jsdelivr.net/bootstrap.native/0.9.6/bootstrap-native.min.js"></script>
+<script src="src/stream.js"></script>
+<script src="https://raw.githubusercontent.com/domchristie/to-markdown/master/dist/to-markdown.js"></script>
+<script>
+    (function () {
+        var targets = {};
+
+        var spies = document.getElementsByClassName('spy');
+        for (var i = 0, max = spies.length; i < max; i++) {
+            var spy = spies[i];
+            targets[spy.href] = spy.parentNode;
+        }
+
+        var updating = false;
+
+        window.addEventListener('scroll', function () {
+            if (!updating) {
+                updating = true;
+                setTimeout(function () {
+                    update();
+                    updating = false;
+                }, 250);
+            }
+        });
+
+        function update() {
+            var triggered = false;
+            for (var property in targets) {
+                if (targets.hasOwnProperty(property)) {
+                    var target = document.getElementById(property.split('#')[1]);
+                    if (!triggered && target && checkVisible(target)) {
+                        targets[property].classList.add('active');
+                        triggered = true;
+                    } else {
+                        targets[property].classList.remove('active');
+                    }
+                }
+            }
+        }
+
+        function checkVisible(elm) {
+            var vpH = window.innerHeight, // Viewport Height
+                    st = window.scrollY, // Scroll Top
+                    y = offset(elm),
+                    elementHeight = elm.clientHeight;
+
+            return ((y < (vpH + st)) && (y > (st - elementHeight)));
+        }
+
+        function offset(elem) {
+            var y = elem.offsetTop;
+
+            while (elem = elem.offsetParent) {
+                y += elem.offsetTop;
+            }
+
+            return y;
+        }
+
+        update();
+    })();
+</script>
+</body>
+</html>

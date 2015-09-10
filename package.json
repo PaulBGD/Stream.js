@@ -1,0 +1,21 @@
+{
+  "name": "stream.js",
+  "version": "1.0.0",
+  "description": "500 byte library for Streams in JavaScript",
+  "main": "src/stream.js",
+  "repository": {
+    "type": "git",
+    "url": "git@https://github.com/PaulBGD/stream.js.git"
+  },
+  "keywords": [
+    "stream",
+    "array",
+    "browser"
+  ],
+  "author": "Paul Sauve <paul@burngames.net> (http://paulb.gd/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PaulBGD/stream.js/issues"
+  },
+  "homepage": "https://github.com/PaulBGD/stream.js#readme"
+}
