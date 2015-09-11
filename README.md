@@ -3,7 +3,7 @@
 
 ## Download
 
-[Development Version](src/stream.js) [Production Version](src/stream.min.js)
+[Development Version](src/stream.js) [Production Version](src/stream.prod.min.js)
 
 ## About
 

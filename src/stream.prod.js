@@ -12,9 +12,6 @@
      * @constructor
      */
     function Stream(array, transformers, afterTransformers) {
-        if (!array || !('length' in array)) {
-            throw new Error('Array does not exist or does not have length property!');
-        }
         this.array = array;
         this.transformers = transformers || [];
         this.afterTransformers = afterTransformers || [];
@@ -32,7 +29,7 @@
         for (var i = 0, max = this.array.length; i < max; i++) {
             var element = this.array[i];
             for (var j = 0, jMax = this.transformers.length; j < jMax; j++) {
-                element = this.transformers[j].t(element);
+                element = this.transformers[j](element);
                 if (element == SKIP) {
                     break;
                 }
@@ -42,7 +39,7 @@
             }
         }
         for (i = 0, max = this.afterTransformers.length; i < max; i++) {
-            array = this.afterTransformers[i].t(array);
+            array = this.afterTransformers[i](array);
         }
         return array;
     };
@@ -70,11 +67,7 @@
         var array = this.toArray();
         var length = array.length;
         while (length--) {
-            var element = array[length];
-            if (isNaN(element)) {
-                throw new Error('Invalid number "' + element + '"');
-            }
-            sum += element;
+            sum += array[length];
         }
         return sum;
     };
@@ -102,17 +95,10 @@
      * @returns {Stream}
      */
     prototype['map'] = function (func) {
-        this.transformers.push(new MapTransform(func));
+        this.transformers.push(function (element) {
+            return func.call(element, element);
+        });
         return this;
-    };
-
-    function MapTransform(func) {
-        checkFunction(func);
-        this.func = func;
-    }
-
-    MapTransform.prototype.t = function (element) {
-        return this.func.call(element, element);
     };
 
     /**
@@ -121,17 +107,10 @@
      * @returns {Stream}
      */
     prototype['filter'] = function (func) {
-        this.transformers.push(new FilterTransform(func));
+        this.transformers.push(function (element) {
+            return func.call(element, element) ? element : SKIP;
+        });
         return this;
-    };
-
-    function FilterTransform(func) {
-        checkFunction(func);
-        this.func = func;
-    }
-
-    FilterTransform.prototype.t = function (element) {
-        return this.func.call(element, element) ? element : SKIP;
     };
 
     /**
@@ -140,17 +119,10 @@
      * @returns {Stream}
      */
     prototype['sort'] = function (func) {
-        this.afterTransformers.push(new SortTransform(func));
+        this.afterTransformers.push(function (array) {
+            return array.sort(func);
+        });
         return this;
-    };
-
-    function SortTransform(func) {
-        checkFunction(func);
-        this.func = func;
-    }
-
-    SortTransform.prototype.t = function (array) {
-        return array.sort(this.func);
     };
 
     /**
@@ -158,12 +130,7 @@
      * @returns {Stream}
      */
     prototype['distinct'] = function () {
-        this.transformers.push(distinctTransformer);
-        return this;
-    };
-
-    var distinctTransformer = {
-        t: function (array) {
+        this.transformers.push(function (array) {
             var newArray = [];
             iLoop: for (var i = 0, max = array.length; i < max; i++) {
                 var element = array[i];
@@ -175,7 +142,8 @@
                 newArray.push(element);
             }
             return newArray;
-        }
+        });
+        return this;
     };
 
     /**
@@ -185,12 +153,6 @@
     prototype['clone'] = function () {
         return new Stream(this.array.slice(0), this.transformers.slice(0), this.afterTransformers.slice(0));
     };
-
-    function checkFunction(func) {
-        if (typeof func !== 'function') {
-            throw new Error('Invalid map function');
-        }
-    }
 
     global['Stream'] = Stream;
 })(this);
