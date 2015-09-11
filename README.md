@@ -15,7 +15,7 @@ Along with this compatibility, it also supports the new ES6 arrow syntax. Protot
 
 Streaming an unordered array of numbers into an array of just the even numbers, as strings with a decimal point:
 
-```
+```javascript
 new Stream ([5, 2, 3, 0])
     .sort(function (o1, o2) { return o1 - o2 })
     .filter(function (o) { return o % 2 })
