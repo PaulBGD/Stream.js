@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stream.js | Example</title>
+</head>
+<body>
+Streaming an unordered array of numbers into an array of just the even numbers, as strings with a decimal point:
+<p id="one"></p>
+Sorting an unordered array of strings into an array of them sorted alphabetically and lowercase
+<p id="two"></p>
+<script src="src/stream.prod.min.js"></script>
+<script>
+    document.getElementById('one').innerHTML = JSON.stringify(new Stream ([5, 2, 3, 0])
+            .sort(function (o1, o2) { return o1 - o2 })
+            .filter(function (o) { return o % 2 })
+            .map(function (o) { return o + '.0' })
+            .toArray());
+
+    document.getElementById('two').innerHTML = JSON.stringify(new Stream(['Zebra', 'HoRse', 'Mammoth'])
+            .map(String.prototype.toLowerCase)
+            .sort(function(o1, o2) { return o1.charCodeAt(0) - o2.charCodeAt(0) })
+            .toArray());
+</script>
+</body>
+</html>

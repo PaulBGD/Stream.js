@@ -21,7 +21,7 @@ new Stream ([5, 2, 3, 0])
     .filter(function (o) { return o % 2 })
     .map(function (o) { return o + '.0' })
     .toArray();
-// => ['0.0', '2.0']
+// => ["3.0","5.0"]
 ```
 
 Sorting an unordered array of strings into an array of them sorted alphabetically and lowercase
@@ -31,6 +31,7 @@ new Stream(['Zebra', 'HoRse', 'Mammoth'])
     .map(String.prototype.toLowerCase)
     .sort(function(o1, o2) { return o1.charCodeAt(0) - o2.charCodeAt(0) })
     .toArray();
+// => ["horse","mammoth","zebra"]
 ```
 
 ## Functions
