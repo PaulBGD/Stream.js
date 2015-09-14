@@ -7,7 +7,7 @@
 
 ## About
 
-Stream.js is a library which adds Streams for Arrays. These Streams work in all browsers, even as far back as IE7\. They're incredibly fast, and can support a multitude of functions.
+Stream.js is a library which adds Streams for Arrays. These Streams work in all browsers, even as far back as IE7. They're incredibly fast, and can support a multitude of functions.
 
 Along with this compatibility, it also supports the new ES6 arrow syntax. Prototypes can be passed to it as well.
 

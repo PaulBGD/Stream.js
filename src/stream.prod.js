@@ -155,4 +155,4 @@
     };
 
     global['Stream'] = Stream;
-})(this);
+})(typeof module != 'undefined' ? module['exports'] : this);
