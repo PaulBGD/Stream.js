@@ -32,7 +32,7 @@
         for (var i = 0, max = this.array.length; i < max; i++) {
             var element = this.array[i];
             for (var j = 0, jMax = this.transformers.length; j < jMax; j++) {
-                element = this.transformers[j].t(element);
+                element = this.transformers[j].transform(element);
                 if (element == SKIP) {
                     break;
                 }
@@ -42,7 +42,7 @@
             }
         }
         for (i = 0, max = this.afterTransformers.length; i < max; i++) {
-            array = this.afterTransformers[i].t(array);
+            array = this.afterTransformers[i].transform(array);
         }
         return array;
     };
@@ -111,7 +111,7 @@
         this.func = func;
     }
 
-    MapTransform.prototype.t = function (element) {
+    MapTransform.prototype.transform = function (element) {
         return this.func.call(element, element);
     };
 
@@ -130,7 +130,7 @@
         this.func = func;
     }
 
-    FilterTransform.prototype.t = function (element) {
+    FilterTransform.prototype.transform = function (element) {
         return this.func.call(element, element) ? element : SKIP;
     };
 
@@ -149,7 +149,7 @@
         this.func = func;
     }
 
-    SortTransform.prototype.t = function (array) {
+    SortTransform.prototype.transform = function (array) {
         return array.sort(this.func);
     };
 
@@ -163,7 +163,7 @@
     };
 
     var distinctTransformer = {
-        t: function (array) {
+        transform: function (array) {
             var newArray = [];
             iLoop: for (var i = 0, max = array.length; i < max; i++) {
                 var element = array[i];

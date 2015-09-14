@@ -31,6 +31,7 @@ new Stream(['Zebra', 'HoRse', 'Mammoth'])
     .map(String.prototype.toLowerCase)
     .sort(function(o1, o2) { return o1.charCodeAt(0) - o2.charCodeAt(0) })
     .toArray();
+// -> ['horse', 'mammoth', 'zebra']
 ```
 
 ## Functions
