@@ -192,5 +192,9 @@
         }
     }
 
-    global['Stream'] = Stream;
-})(typeof module != 'undefined' ? module['exports'] : this);
+    if (typeof module != 'undefined') {
+        module.exports = Stream;
+    } else {
+        global['Stream'] = Stream;
+    }
+})(this);
